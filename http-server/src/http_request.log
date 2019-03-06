@@ -1,0 +1,1 @@
+INFO:root:b'GET /index.html HTTP/1.1\r\ncache-control: no-cache\r\nPostman-Token: 2a9de22c-4438-4da7-bb44-1b0d270e989c\r\nUser-Agent: PostmanRuntime/7.6.0\r\nAccept: */*\r\nHost: 127.0.0.1:8888\r\naccept-encoding: gzip, deflate\r\nConnection: keep-alive\r\n\r\n'
