@@ -50,9 +50,10 @@ Las unicas librerias usadas para la implementación fueron socket, mimetypes, lo
 6. Clonar repositorio: https://github.com/edtiko/http-server-pattern.git
 7. Abrir consola e ir a la raíz del proyecto /http-server
 8. Ejecutar comando para iniciar el servidor: py main.py
-9. En la consola debe aparecer "Listening socket on 127.0.0.0:8888"
+9. En la consola debe aparecer "Listening at ('127.0.0.1', 8888)"
 10. Abrir navegador o Postman para poder realizar peticiones como:
- - HTTP 1.1 GET 127.0.0.0:8888/index.html
+ - HTTP/1.1 GET http://127.0.0.0:8888/index.html
+ - HTTP/1.1 OPTIONS http://127.0.0.0:8888
  - las peticiones quedan registradas en un archivo de log http_request.log:
  ![alt text](https://github.com/edtiko/http-server-pattern/blob/master/capture_log.PNG)
  
