@@ -1,5 +1,98 @@
 # http-server-pattern
 
+
+# Objetivo
+Construir servidor HTTP desde cero teniendo en cuenta los lineamientos del protocolo HTTP /1.1 especificado en el RFC, y entender el comportamiento interno de este. tomando desiciones de diseño y teniendo un código legible que pueda ser leido facilmente.
+
+# Requisitos
+* Implementar la atención de peticiones http. 
+* Realizar traza de todas las peticiones que se le realicen aL servidor escribiendo cada petición recibida en un archivo de log.
+* Implementar proyecto de pruebas, donde estén definidos los comportamientos esperados.
+
+# Implementación:
+La metodología usada para el desarrollo del servidor HTTP es BDD (Behavior Driven Development), donde primero se establecieron los comportamientos esperados de la aplicación, para posteriormente desarrollar cada escenario esperado.
+Al ser python un lenguaje intituitivo la curva de aprendizaje no fue tan complejo, sin embargo se presentaron errores que requirieron investigación para solucionarlos.
+Las unicas librerias usadas para la implementación fueron socket, mimetypes, logging
+
+![alt text](https://qanalysisblog.files.wordpress.com/2018/06/bdd_pic1.png?w=775)
+
+// Primera Revisión
+* Se implemento inicialmente un servidor TCP que atendiera conexiones full duplex con sockets entre el userAgent y el server.
+
+// Segunda Revisión
+* Posterior se desarrolla el parseador de los datos recibidos en el socket
+* Posterior se implementan 2 metodos HTTP (GET, OPTIONS)
+* Manejo de errores cuando llegue un metodo no implementado (POST, PUT..)
+* Manejo de la traza de cada petición realizada en un archivo llamado http_request.log que se encuentra dentro del proyecto
+
+
+# Diagrama de Clases
+
+![alt text](https://github.com/edtiko/http-server-pattern/blob/master/class-diagram.png)
+
+
+# Herramientas
+* El lenguaje usado para la implementación fue Python 3 y para el proyecto de pruebas Java.
+* Visual Studio Code para realizar la implementación en Python.
+* Eclipse para realizar el proyecto de pruebas usando Cucumber como dependencia.
+* Git para el control de versiones de los dos proyectos.
+* Junit para pruebas unitarias
+* Cucumber para pruebas de integración y comportamiento
+* RestAssured para pruebas del servicio HTTPServer
+
+# Instrucciones de uso:
+
+1. Instalar Python 3: https://www.python.org/downloads/
+2. Instalar JDK Java: https://www.oracle.com/technetwork/es/java/javase/downloads/index.html
+3. Instalar IDE Visual Studio Code
+4. Instalar Eclipse o Intellij
+5. Instalar Git
+6. Clonar repositorio: https://github.com/edtiko/http-server-pattern.git
+7. Abrir consola e ir a la raíz del proyecto /http-server
+8. Ejecutar comando para iniciar el servidor: py main.py
+9. En la consola debe aparecer "Listening socket on 127.0.0.0:8888"
+10. Abrir navegador o Postman para poder realizar peticiones como:
+ - HTTP 1.1 GET 127.0.0.0:8888/index.html
+11. Para ejecutar el proyecto de pruebas es necesario realizar lo siguiente:
+ - En el mismo repositorio se encuentra el proyecto /http-server-test
+ - Importar como proyecto Maven en Eclipse
+ - Ejecutar clase CucumberTest.java
+ - Ver resultado de los pasos definidos cómo escenarios 
+ - Ejecutar HttpServerTest.java con Junit para validar respuesta del servicio (httpServer)
+
+# Pruebas:
+Se implementó un proyecto de pruebas en Java con Cucumber para cubrir los comportamientos esperados del servidor HTTP desarrollado, los escenarios planteados son:
+  
+//Escenario 1
+* Dado el nombre de un recurso index.html 
+* Cuando el userAgent realice una petición GET al servidor http 
+* Entonces el servidor debe responder código 200
+* y con el body de index.html
+
+//Escenario 2
+* Dado el nombre de un recurso desconocido 
+* Cuando el userAgent realice una petición GET al servidor http 
+* Entonces el servidor debe responder código 404
+* y con el body de error
+
+//Escenario 3
+* Dado el nombre de un recurso index.html 
+* Cuando el userAgent realice una petición POST al servidor http 
+* Entonces el servidor debe responder código 501
+* y con el body de error
+
+# Decisiones de realización
+
+| Definición | Contexto |
+| ------ | ------ |
+| Tema | Definición lenguaje de programa para desarrollar el servidor HTTP|
+| Descripción del Problema | Debido a la necesidad que se tiene de realizar la construcción del servidor, se debe considerar en que lenguaje de programación se debe realizar esta construcción.  |
+| Decisión | Se considera la opción de realizar la implementación de este servidor en los lenguaje de Python o Node.js ya que los integrantes de este grupo, tienen conocimiento sobre estos  lenguajes, sin embargo aun no se define en cual de los dos será el escogido ya que se realizaran pruebas de concepto para la definición del lenguaje a utilizar. |
+| Implicaciones | Usar libreria de sockets en python |
+| Lenguaje de programación     | Python      |
+| Arquitectura  | Cliente - Servidor (Stateless) |
+
+# Funcionamiento de un HTTP Server
 Cuando se realiza una petición por HTTP (http request) por un navegador o cualquier software capaz de hacer peticiones http:
 1. Se necesita establecer una conexión TCP (por medio de sockets entre el cliente y el server)
   - create socket
@@ -23,114 +116,6 @@ To sum it up: The Web server creates a listening socket and starts accepting new
 The client initiates a TCP connection and, after successfully establishing it, 
 the client sends an HTTP request to the server and the server responds with an HTTP response that gets displayed to the user.
 To establish a TCP connection both clients and servers use sockets.
-
-# Objetivo
-Construir servidor HTTP desde cero siguiendo las recomendaciones del RFC donde se define el protocolo HTTP /1.1, con la implementación de sockets y teniendo en cuenta las estructuras definidas para el cuerpo del mensaje enviado por el cliente (user agent) y la respuesta del server (origin server).
-
-![alt text](https://cdn-images-1.medium.com/max/1600/1*3YxzwVR_f_nluz9yIdrMWA.png)
-
-# Key Words for implement a Http Server
-
-* **modelo OSI**
- - capa fisica
- - capa de enlace de datos
- - capa de red
- - **capa de transporte**
- - capa de sesión
- - capa de presentación
- - capa de aplicación
-
-* **TCP/IP**
-* **Sockets**
-* **HTTP/1.1**
-* **Web browser**
-* **Web server**
-* **HTTP Methods: GET, POST, DELETE, PUT**
-* **RFC** => Request for Comments defined by Internet Engineering Task Force (IETF)  
-* **Internet**
-
-
-To implement HTTP, we only care about 4th Layer: Transport Layer.
-HTTP/1.1 →Initially it is RFC 2616 but later replaced by RFC 7230, RFC 7231, RFC 7232, RFC 7233, RFC 7234, RFC 7235. So, we need to read from RFC 7230 to RFC 7235 to implement basic workings of HTTP.
-
-Implementing TCP:
-First we need to implement the Transport Layer of HTTP which is TCP.
-To implement TCP, we have to learn TCP socket programming.
-
-# HTTP Request Proccess
-![alt text](http://www.aosabook.org/en/500L/web-server-images/http-cycle.png)
-
-![alt text](https://cdn-images-1.medium.com/max/1000/1*JSnJtHpU7cWUnWIgGupu7w.png)
-
-![alt text](https://ruslanspivak.com/lsbaws-part1/LSBAWS_HTTP_response_anatomy.png)
-
-# HTTP Request Structure
-
-![alt text](https://cdn-images-1.medium.com/max/1000/1*Yqq-60D9mD4NVuhFd4IoFg.png)
-
-# Examples
-- The "hello world" example using Python http server:
-1. Wait for someone to connect to our server and send an HTTP request;
-2. parse that request;
-3. figure out what it's asking for;
-4. fetch that data (or generate it dynamically);
-5. format the data as HTML; and
-6. send it back.
-Steps 1, 2, and 6 are the same from one application to another, so the Python standard library has a module called BaseHTTPServer that does those for us. We just have to take care of steps 3-5, which we do in the little program below:
-
-```
-import BaseHTTPServer
-
-class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
-    '''Handle HTTP requests by returning a fixed 'page'.'''
-
-    # Page to send back.
-    Page = '''\
-<html>
-<body>
-<p>Hello, web!</p>
-</body>
-</html>
-'''
-
-    # Handle a GET request.
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-Type", "text/html")
-        self.send_header("Content-Length", str(len(self.Page)))
-        self.end_headers()
-        self.wfile.write(self.Page)
-
-#----------------------------------------------------------------------
-
-if __name__ == '__main__':
-    serverAddress = ('', 8080)
-    server = BaseHTTPServer.HTTPServer(serverAddress, RequestHandler)
-    server.serve_forever()
-```    
-
-- The "hello world" example using Node's http server:
-```
-const http = require('http');
-const server = http.createServer();
-server.on('request', (req, res) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-  res.setHeader('Content-Type','text/plain');
-  res.end('Hello World!');
-});
-server.listen(3000);
-```
-# Decisiones de realización
-
-| Definición | Contexto |
-| ------ | ------ |
-| Tema | Definición lenguaje de programa para desarrollar el servidor HTTP|
-| Descripción del Problema | Debido a la necesidad que se tiene de realizar la construcción del servidor, se debe considerar en que lenguaje de programación se debe realizar esta construcción.  |
-| Alternativas | Realizar la implementación del servidor en los siguientes lenguajes ( C#, C, Python, Java,Node.js)|
-| Decisión | Se considera la opción de realizar la implementación de este servidor en los lenguaje de Python o Node.js ya que los integrantes de este grupo, tienen conocimiento sobre estos  lenguajes, sin embargo aun no se define en cual de los dos será el escogido ya que se realizaran pruebas de concepto para la definición del lenguaje a utilizar. |
-| Implicaciones | Usar libreria de sockets en python |
-| Lenguaje      | Python      |
-| Arquitectura  | Cliente - Servidor (Stateless) Falta definir estrategia de la solución y representación con diagramas de clases o flujo |
 
 # Referencias
 RFC HTTP/1.1,  https://tools.ietf.org/html/rfc7230
