@@ -95,7 +95,7 @@ Se implementó un proyecto de pruebas en Java con Cucumber para cubrir los compo
 | ------ | ------ |
 | Restricciones | Solo están implementados los metodos GET y OPTIONS |
 | Pruebas | Cucumber, JUnit, RestAssured |
-| Librerias usadas implementación | sockets, logging, mimetypes |
+| Librerias usadas implementación | sockets, logging, mimetypes, os |
 | Lenguajes de programación     | Python, Java  |
 | Arquitectura  | Cliente - Servidor (Stateless) |
 | Metodología   | BDD |
