@@ -85,12 +85,12 @@ Se implementó un proyecto de pruebas en Java con Cucumber para cubrir los compo
 
 | Definición | Contexto |
 | ------ | ------ |
-| Tema | Definición lenguaje de programa para desarrollar el servidor HTTP|
-| Descripción del Problema | Debido a la necesidad que se tiene de realizar la construcción del servidor, se debe considerar en que lenguaje de programación se debe realizar esta construcción.  |
-| Decisión | Se considera la opción de realizar la implementación de este servidor en los lenguaje de Python o Node.js ya que los integrantes de este grupo, tienen conocimiento sobre estos  lenguajes, sin embargo aun no se define en cual de los dos será el escogido ya que se realizaran pruebas de concepto para la definición del lenguaje a utilizar. |
-| Implicaciones | Usar libreria de sockets en python |
-| Lenguaje de programación     | Python      |
+| Restricciones | Solo están implementados los metodos GET y OPTIONS |
+| Pruebas | Cucumber, JUnit, RestAssured |
+| Librerias usadas implementación | sockets, logging, mimetypes |
+| Lenguajes de programación     | Python, Java  |
 | Arquitectura  | Cliente - Servidor (Stateless) |
+| Metodología   | BDD |
 
 # Funcionamiento de un HTTP Server
 Cuando se realiza una petición por HTTP (http request) por un navegador o cualquier software capaz de hacer peticiones http:
