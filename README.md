@@ -53,6 +53,9 @@ Las unicas librerias usadas para la implementación fueron socket, mimetypes, lo
 9. En la consola debe aparecer "Listening socket on 127.0.0.0:8888"
 10. Abrir navegador o Postman para poder realizar peticiones como:
  - HTTP 1.1 GET 127.0.0.0:8888/index.html
+ - las peticiones quedan registradas en un archivo de log http_request.log:
+ ![alt text](https://github.com/edtiko/http-server-pattern/blob/master/capture_log.PNG)
+ 
 11. Para ejecutar el proyecto de pruebas es necesario realizar lo siguiente:
  - En el mismo repositorio se encuentra el proyecto /http-server-test
  - Importar como proyecto Maven en Eclipse
