@@ -1,5 +1,9 @@
 # http-server-pattern
 
+# Autores
+Edwin Gómez
+Wilmer Renteria
+
 
 # Objetivo
 Construir servidor HTTP desde cero teniendo en cuenta los lineamientos del protocolo HTTP /1.1 especificado en el RFC, y entender el comportamiento interno de este. tomando desiciones de diseño y teniendo un código legible que pueda ser leido facilmente.
