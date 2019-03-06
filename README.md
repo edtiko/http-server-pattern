@@ -1,8 +1,8 @@
 # http-server-pattern
 
 # Autores
-Edwin Gómez
-Wilmer Renteria
+* Edwin Gómez
+* Wilmer Renteria
 
 
 # Objetivo
