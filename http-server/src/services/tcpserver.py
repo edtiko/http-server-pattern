@@ -1,14 +1,13 @@
 import socket
-from services.httplogging import HTTPLogging
-from util.util import Util
+from util.httpconstant import HTTPConstant
 
-class TCPServer(Util):
+class TCPServer(HTTPConstant):
 
-    def __init__(self, host='127.0.0.1', port=8888):
+    def __init__(self, host, port):
         self.host = host
         self.port = port
 
-    def start(self):
+    def start(self, handle):
         # create a socket object
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -20,9 +19,9 @@ class TCPServer(Util):
         print("Listening at", s.getsockname())
         #loop listens http requests
         while True:
-          self.request_resolve(s)
+          self.request_resolve(s, handle)
    
-    def request_resolve(self, socket):
+    def request_resolve(self, socket, handle):
         # accept any new connection
         conn, addr = socket.accept()
 
@@ -31,15 +30,8 @@ class TCPServer(Util):
         # read the data sent by the client (1024 bytes)
         data = conn.recv(1024)
 
-        # write request log
-        self.write_request_log(data)
-
         # handle request on http server
-        response = self.handle_request(data)
+        response = handle(data)
 
         conn.sendall(response.encode('utf-8'))
         conn.close()
-    
-    def write_request_log(self, data):
-        logging = HTTPLogging()
-        logging.writeLog(data)

@@ -1,62 +1,71 @@
 import os
 import mimetypes
+from util.httpconstant import HTTPConstant
+from services.httpresponse import HTTPResponse
 
-class HTTPHandler:
+class HTTPHandler(HTTPConstant):
 
-    def HTTP_501_handler(self, request):
-        response_line = self.response_line(status_code=self.HTTP_NOT_IMPLEMENTED_CODE)
+    def __init__(self, method):
+        self.handler = None
+        self.resolve_handler(method)
 
-        response_headers = self.response_headers()
+    def resolve_handler(self, method):
+        try:
+            self.handler = getattr(self, 'handle_%s' % method)
+        except AttributeError:
+            self.handler = self.handle_ERROR
 
-        blank_line = self.BLANK_LINE
+    def handle_ERROR(self, request):
+        http_response = HTTPResponse(self.HTTP_NOT_IMPLEMENTED_CODE, None, self.NOT_IMPLEMENTED_BODY)
 
-        response_body = self.NOT_IMPLEMENTED_BODY 
+        return http_response.build()
 
-        return "%s%s%s%s" % (
-                response_line, 
-                response_headers, 
-                blank_line, 
-                response_body
-            )
 
     def handle_OPTIONS(self, request):
-        response_line = self.response_line(self.HTTP_OK_CODE)
 
-        response_headers = self.response_headers(self.EXTRA_HEADERS)
-
-        blank_line = self.BLANK_LINE
-
-        return "%s%s%s" % (
-                response_line, 
-                response_headers,
-                blank_line
-            )
+        http_response = HTTPResponse(self.HTTP_OK_CODE, self.EXTRA_HEADERS, self.HTTP_OPTIONS_BODY)
+        
+        return http_response.build()
 
     def handle_GET(self, request):
         filename = request.uri.strip('/') # remove the slash from URI
 
-        if filename is not '' and filename is not None and os.path.exists('views/'+filename):
-            response_line = self.response_line(self.HTTP_OK_CODE)
+        if filename is not '' and filename is not None and os.path.exists(self.PATH_VIEWS+filename):
+            status_code = self.HTTP_OK_CODE
 
-             # find out a file's MIME type
+            # find out a file's MIME type
             # if nothing is found, just send `text/html`
-            content_type = mimetypes.guess_type(filename)[0] or 'text/html'
+            content_type = mimetypes.guess_type(filename)[0] or self.CONTENT_TYPE_TEXT_HTML
 
             extra_headers = {'Content-Type': content_type}
-            response_headers = self.response_headers(extra_headers)
 
-            with open('views/'+filename) as f:
-                response_body = f.read()
+            with open(self.PATH_VIEWS+filename) as f:
+                body = f.read()
         else:
-            response_line = self.response_line(self.HTTP_NOT_FOUND_CODE)
-            response_headers = self.response_headers()
-            response_body = self.NOT_FOUND_BODY
+            status_code = self.HTTP_NOT_FOUND_CODE
+            extra_headers = None
+            body = self.NOT_FOUND_BODY
+        
+        http_response = HTTPResponse(status_code, extra_headers, body)
+        
+        return http_response.build()
 
-        blank_line = self.BLANK_LINE
-
-        return "%s%s%s%s" % (
-                response_line, 
-                response_headers, 
-                blank_line, 
-                response_body
-            )
+    def handle_POST(self, request):
+        http_response = HTTPResponse(self.HTTP_OK_CODE, None, self.HTTP_POST_BODY)
+        
+        return http_response.build()
+    
+    def handle_PUT(self, request):
+        http_response = HTTPResponse(self.HTTP_OK_CODE, None, self.HTTP_PUT_BODY)
+        
+        return http_response.build()
+    
+    def handle_DELETE(self, request):
+        http_response = HTTPResponse(self.HTTP_OK_CODE, None, self.HTTP_DELETE_BODY)
+        
+        return http_response.build()
+    
+    def handle_PATCH(self, request):
+        http_response = HTTPResponse(self.HTTP_OK_CODE, None, self.HTTP_PATCH_BODY)
+        
+        return http_response.build()
