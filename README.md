@@ -32,7 +32,7 @@ Las unicas librerias usadas para la implementación fueron socket, mimetypes, lo
 
 # Diagrama de Clases
 
-![alt text](https://github.com/edtiko/http-server-pattern/blob/master/class_diagram.png)
+![alt text](https://github.com/edtiko/http-server-pattern/blob/master/classdiagram.png)
 
 
 # Herramientas
