@@ -32,7 +32,7 @@ Las unicas librerias usadas para la implementación fueron socket, mimetypes, lo
 
 # Diagrama de Clases
 
-![alt text](https://github.com/edtiko/http-server-pattern/blob/master/classdiagram.png)
+![alt text](https://github.com/edtiko/http-server-pattern/blob/master/class-diagram-final.png)
 
 
 # Herramientas
@@ -61,9 +61,7 @@ Las unicas librerias usadas para la implementación fueron socket, mimetypes, lo
 10. Abrir navegador o Postman para poder realizar peticiones como:
  - HTTP/1.1 GET http://127.0.0.0:8888/index.html
  - HTTP/1.1 OPTIONS http://127.0.0.0:8888
- - las peticiones quedan registradas en un archivo de log http_request.log:
- 
- ![alt text](https://github.com/edtiko/http-server-pattern/blob/master/capture_log.PNG)
+ - las peticiones quedan registradas en un archivo de log http_request.log
  
 11. Para ejecutar el proyecto de pruebas es necesario realizar lo siguiente:
  - En el mismo repositorio se encuentra el proyecto /http-server-test
