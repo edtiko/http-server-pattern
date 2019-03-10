@@ -25,8 +25,8 @@ Las unicas librerias usadas para la implementación fueron socket, mimetypes, lo
 
 // Segunda Revisión
 * Posterior se desarrolla el parseador de los datos recibidos en el socket
-* Posterior se implementan 2 metodos HTTP (GET, OPTIONS)
-* Manejo de errores cuando llegue un metodo no implementado (POST, PUT..)
+* Posterior se implementan 2 metodos HTTP (GET, OPTIONS, POST, PUT, DELETE, PATCH)
+* Manejo de errores cuando llegue un metodo no implementado
 * Manejo de la traza de cada petición realizada en un archivo llamado http_request.log que se encuentra dentro del proyecto
 
 
@@ -43,6 +43,7 @@ Las unicas librerias usadas para la implementación fueron socket, mimetypes, lo
 * Junit para pruebas unitarias
 * Cucumber para pruebas de integración y comportamiento
 * RestAssured para pruebas del servicio HTTPServer
+* StarUML para realizar el diagrama de clases
 
 # Instrucciones de uso:
 
